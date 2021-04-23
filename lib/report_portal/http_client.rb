@@ -12,6 +12,9 @@ module ReportPortal
       path.prepend(origin) unless use_persistent?
       3.times do
         begin
+          options[:headers] = {
+            'Authorization' => "Bearer #{Settings.instance.uuid}"
+          }
           response = @http.request(verb, path, options)
         rescue StandardError => e
           puts "Request #{request_info(verb, path)} produced an exception:"
