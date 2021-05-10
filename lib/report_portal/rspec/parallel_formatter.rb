@@ -16,33 +16,21 @@ module ReportPortal
         ENV['REPORT_PORTAL_USED'] = 'true'
       end
 
-      def attach_to_launch?
-        ReportPortal::Settings.instance.formatter_modes.include?('attach_to_launch')
-      end
-
       def start(_start_notification)
-        if attach_to_launch?
-          ReportPortal.launch_id =
-            if ReportPortal::Settings.instance.launch_id
-              ReportPortal::Settings.instance.launch_id
-            else
-              file_path = ReportPortal::Settings.instance.file_with_launch_id || (Pathname(Dir.tmpdir) + 'rp_launch_id.tmp')
-              File.read(file_path)
-            end
-          @root_node = Tree::TreeNode.new(SecureRandom.hex)
-          @current_group_node = @root_node
-          puts "Attaching to launch #{ReportPortal.launch_id}"
-        else
-          super
-        end
+        ReportPortal.launch_id =
+          if ReportPortal::Settings.instance.launch_id
+            ReportPortal::Settings.instance.launch_id
+          else
+            file_path = ReportPortal::Settings.instance.file_with_launch_id || (Pathname(Dir.tmpdir) + 'rp_launch_id.tmp')
+            File.read(file_path)
+          end
+        @root_node = Tree::TreeNode.new(SecureRandom.hex)
+        @current_group_node = @root_node
+        puts "Attaching to launch #{ReportPortal.launch_id}"
       end
 
       def stop(_notification)
-        if attach_to_launch?
-          puts "DO nothing... call rake reportportal:finish_launch to finish execution"
-        else
-          super
-        end
+        puts "Do nothing... call rake reportportal:finish_launch to finish execution"
       end
     end
   end
