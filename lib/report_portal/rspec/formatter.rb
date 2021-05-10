@@ -48,6 +48,9 @@ module ReportPortal
           @current_group_node = group_node
           group_node.content.id = ReportPortal.start_item(group_node)
         end
+      rescue StandardError => e
+        puts "Error start_item #{group_notification.inspect}"
+        raise e
       end
 
       def example_group_finished(_group_notification)
