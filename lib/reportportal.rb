@@ -56,6 +56,9 @@ module ReportPortal
       data[:tags] = item.tags unless item.tags.empty?
       event_bus.broadcast(:prepare_start_item_request, request_data: data)
       send_request(:post, path, json: data)['id']
+    rescue StandardError => e
+      puts "Error start_item #{item_node.inspect}"
+      raise e
     end
 
     def finish_item(item, status = nil, end_time = nil, force_issue = nil)
