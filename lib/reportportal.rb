@@ -50,7 +50,7 @@ module ReportPortal
 
     def start_item(item_node)
       path = 'item'
-      path += "/#{item_node.parent.content.id}" unless item_node.parent&.is_root?
+      path += "/#{item_node.parent&.content&.id}" unless item_node.parent&.is_root?
       item = item_node.content
       data = { start_time: item.start_time, name: item.name[0, 255], type: item.type.to_s, launch_id: @launch_id, description: item.description }
       data[:tags] = item.tags unless item.tags.empty?
