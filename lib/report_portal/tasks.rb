@@ -21,7 +21,7 @@ namespace :reportportal do
     puts "Launch id isn't provided. Provide it either via RP_LAUNCH_ID or RP_FILE_WITH_LAUNCH_ID environment variables" if !launch_id && !file_with_launch_id
     puts 'Both RP_LAUNCH_ID and RP_FILE_WITH_LAUNCH_ID are provided via environment variables' if launch_id && file_with_launch_id
     ReportPortal.launch_id = launch_id || File.read(file_with_launch_id)
-    ReportPortal.close_child_items(nil)
+    # ReportPortal.close_child_items(nil)
     ReportPortal.finish_launch
   end
 end
